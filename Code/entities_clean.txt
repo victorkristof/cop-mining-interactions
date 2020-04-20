@@ -3,8 +3,12 @@ AFGHANISTAN
 AFRICA GROUP
 AFRICAN GROUP
 AILAC
-ALBA
+ALBA
+
+for LDCs
 ALBANIA
+
+for the Group of 77 and China
 
 ALLIANCE OF SMALL ISLAND STATES
 ALBANIA AND MOLDOVA GROUP
@@ -115,7 +119,7 @@ G-77/CHINA
 
 G-77/ CHINA
 
-for the G-77/China
+
 GABON
 GAMBIA
 GEORGIA
@@ -166,7 +170,7 @@ LDC
 LDC GROUP
 LDCS
 
-for the LDCs
+FEDERATED STATES OF MICRONESIA
 
 LEAST DEVELOPED COUNTRIES
 LEBANON
@@ -254,7 +258,23 @@ SERBIA AND MONTENEGRO
 SEYCHELLES
 SIDS
 
-SICA
+SICA
+
+for the LDCs
+
+for the Least Developed Countries
+
+for the G-77/China
+
+for the G-77/ China
+
+for the Environmental Integrity Group
+
+for the Umbrella Group
+
+for the European Union
+
+for the Arab Group
 SIERRA LEONE
 SINGAPORE
 SLOVAKIA
