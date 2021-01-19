@@ -13,7 +13,7 @@ from nltk import word_tokenize
 from nltk.tag import StanfordNERTagger
 from nltk.tokenize import MWETokenizer
 from p2_extract_text_issue import extract_paragraphes_from_issue, extract_sentences
-from p3_extract_interventions import extract_from_csv_list_issues
+
 import argparse
 import collections
 from collections import Counter
@@ -21,6 +21,16 @@ import itertools
 nltk.download('punkt')
 nltk.download('averaged_perceptron_tagger')
 
+def extract_from_csv_list_issues(csv_file):
+    """ Extract from "csv_file" all the html link to be able to extract all the <p> tags. """
+    f = open(csv_file)
+    csv_f = csv.reader(f)
+    list_pt = []
+    l =list(csv_f)[1:]
+    issue = []
+    for x in l:
+        issue.append(int(x[4]))
+    return issue
 
 def tokenize_sentence(sentence, country):
     """Split the sentence in a way that the entities are together and will be able to be detected."""
@@ -706,6 +716,7 @@ def extract_interactions_range(list_issue):
     issues_generated = issues = extract_from_csv_list_issues('Files/list_meetings.csv')
     for x in list_issue:
         if(x in issues_generated):
+            print('Issue'+str(x))
             interactions +=  extract_interactions(x)
 
         else:

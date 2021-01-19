@@ -209,7 +209,10 @@ def extract_list_sbs(soup):
     
     #Case 5 : 32
     list_5 = soup.find_all(string=re.compile("SB"+"\s"+"\d+"+"\s"+"- AWG..."))
-    
+
+    #Case 6 : 48-2
+    list_6 = soup.find_all(string=re.compile("SB \d+-\d ....."))
+
     # Clean list_2
     for i in range(len(list_2)) :
         list_2[i] =  re.sub("- AG\d+ \d ", '', list_2[i])
@@ -222,8 +225,11 @@ def extract_list_sbs(soup):
     
     for i in range(len(list_5)) :
         list_5[i] =  re.sub(" . AWGs", '', list_5[i])
+    
+    for i in range(len(list_6)) :
+        list_6[i] =  re.sub("SB 48-2", 'SB 48', list_6[i])
 
-    list = list_1+list_2+list_3+list_4+list_5
+    list = list_1+list_2+list_3+list_4+list_5+list_6
 
     return compute_list(list)   
 
@@ -233,12 +239,21 @@ def extract_list_ipccs(soup):
     """ Extract of all the IPCC meetings from a webpage and return a list containing all of them with their number, date and place. """
     
     #Case 1 : 17, 18, 22, 24, 25, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 52
-    list = soup.find_all(string=re.compile("IPCC-\d+ . "))
+    list1 = soup.find_all(string=re.compile("IPCC-\d+ . "))
 
-    for i in range(len(list)) :
-        list[i] =  re.sub("-", ' ', list[i])
-        
-    return compute_list(list)
+    for i in range(len(list1)) :
+        list1[i] =  re.sub("-", ' ', list1[i])
+    
+    list2 = soup.find_all(string=re.compile("IPCC WG...."))
+    
+    for i in range(len(list2)) :
+
+        list2[i] =  re.sub("WGIII", '3', list2[i])
+        list2[i] =  re.sub("WGII", '2', list2[i])
+        list2[i] =  re.sub("WGI", '1', list2[i])
+
+    l = list1 + list2
+    return compute_list(list1+list2)
 
 # AGMB
 
@@ -247,6 +262,7 @@ def extract_list_agbms(soup):
   
     #Case 1 : 1, 2, 3, 6, 7
     list = soup.find_all(string=re.compile("AGBM \d+ . \d+")) 
+
     return compute_list(list)
 
 # UNFCCC WS
@@ -521,7 +537,11 @@ def extract_list_tech_ws(soup):
 def combine_information_meetings(soup, meeting_type, extract_type):
     """Combine information for each issue of each meeting """
     list_meetings = extract_type(soup)
+    print(len(list_meetings))
+    #print(list_meetings)
     list_meetings_information = extract_details_meetings(soup,meeting_type)
+    print(len(list_meetings_information))
+
     total = []
 
     for i in range(len(list_meetings)):
@@ -535,13 +555,15 @@ def combine_information_meetings(soup, meeting_type, extract_type):
 
 def computes_all_list_meetings(soup):
     """ Compute all combine all the lists of all the meetings with their issues. """
+
     list_sb = combine_information_meetings(soup,'SB', extract_list_sbs)
+
     list_adp = combine_information_meetings(soup,'ADP', extract_list_adps)
     list_agbm = combine_information_meetings(soup,'AGBM', extract_list_agbms)
-    list_ipcc = combine_information_meetings(soup,'IPCC', extract_list_ipccs)
     list_awg = combine_information_meetings(soup,'AWGs CCWG', extract_list_awgs_t1)
     list_awg += combine_information_meetings(soup,'AWGs RCCWG', extract_list_awgs_t2)
     list_awg += combine_information_meetings(soup,'AWGLCA', extract_list_awgs_t3)
+    list_ipcc = combine_information_meetings(soup,'IPCC', extract_list_ipccs)
     list_awg += combine_information_meetings(soup,'AWG', extract_list_awgs_t4)
     list_tech_work = combine_information_meetings(soup,'Tech-Work', extract_list_tech_work)
     list_lulucf = combine_information_meetings(soup,'LULUCF', extract_list_lulucf)

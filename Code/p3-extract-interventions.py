@@ -9,6 +9,7 @@ from nltk import sent_tokenize
 from nltk import word_tokenize
 from nltk.tokenize import MWETokenizer
 import csv
+import p2_extract_text_issue
 from p2_extract_text_issue import extract_paragraphes_from_issue, extract_sentences
 import argparse
 
@@ -104,16 +105,17 @@ def extract_from_csv_list_issues(csv_file):
 
 def extract_intervention_range(list_issue):
     interventions = []
-    issues_generated = issues = extract_from_csv_list_issues('Files/list_meetings.csv')
+    issues_generated = extract_from_csv_list_issues('Files/list_meetings.csv')
    
     for x in list_issue:
         if(x in issues_generated):
+            print('Issue '+str(x))
             p = extract_paragraphes_from_issue(x)
             s = extract_sentences(p, False, x)
             e = extract_occurences_issue_ENB(s, x)
             interventions.append(e)
         else:
-            print('Issue number '+ str(x)+' not in the list of issue extarcted')
+            print('Issue number '+ str(x)+' not in the list of issue extracted')
     
     s = "Files/interventions-issues-"+ str(list_issue[0]) +"-" + str(list_issue[-1])+".csv"
     write_occurrence_issue(interventions, s)
